@@ -18,6 +18,7 @@ struct SwiftUIView: View {
     @State var isCheckd:Bool = true
     @State var cloock:Bool = true
     @State var checktag:[String] = ["全部项目"]
+    @State var important:Bool = false
     @Environment(\.presentationMode)var prose
     var body: some View {
         NavigationView {
@@ -27,6 +28,11 @@ struct SwiftUIView: View {
                         Text("项目名称")
                         TextField("例如: 读完 <<乔布斯自传>>", text: self.$title)
                             .padding(.leading,45)
+                        Image(systemName:important ? "star.fill":"star")
+                            .onTapGesture(count: 1, perform: {
+                                important.toggle()
+                            })
+                            .padding(5)
                     }
 //                    NavigationLink(destination: Tagseksl(checktag: self.$checktag)){
 //                        Text("标签")
@@ -66,15 +72,21 @@ struct SwiftUIView: View {
             .navigationBarItems(
             leading:
             Image(systemName: "xmark")
-                .foregroundColor(.red)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 18)
+                .padding()
                 .onTapGesture {
                     self.prose.wrappedValue.dismiss()
             }
             ,trailing:
             Image(systemName: "checkmark")
-                .foregroundColor(.red)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 18)
+                .padding()
                 .onTapGesture {
-                    self.userData.add(data: SingleToDo(title: self.title,tags: self.checktag))
+                    self.userData.add(data: SingleToDo(title: self.title,tags: self.checktag,important:self.important))
                     self.prose.wrappedValue.dismiss()
                 }
             )

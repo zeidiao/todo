@@ -30,17 +30,29 @@ struct showFilter: View {
         }
         return count
     }
+    func importantCount(tag:String) -> Int {
+        var count = 0
+        
+        if tag == "重要" {
+            self.userData.todoList.forEach { (todo) in
+                if !todo.delete && todo.important {
+                    count += 1
+                }
+            }
+        }
+        return count
+    }
     var body: some View {
         NavigationView {
             VStack {
-                VStack(spacing:15) {
+                VStack(spacing:20) {
                     ForEach(j){ tag in
-                        gu(col: tag.col, name: tag.name, img: tag.img, count: tag.count)
+                        gu(col: tag.col, name: tag.name, img: tag.img, count: importantCount(tag: tag.name))
 
                     }
                 }
-                .padding(.vertical,15)
-                .padding(.horizontal,20)
+                .padding(.vertical,20)
+                .padding(.horizontal,30)
                 
                 List {
                     ForEach(self.userData.tags){ tag in
@@ -76,11 +88,14 @@ struct showFilter: View {
             .navigationBarTitle(Text("选择标签"),displayMode: .inline)
             .navigationBarItems(
             leading:
-            Image(systemName: "arrow.backward.circle.fill")
+            Image(systemName: "chevron.left")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 30, height: 30)
-                .foregroundColor(.red)
+                .frame(width: 12)
+                .foregroundColor(.black)
+                .padding(.horizontal,14)
+                .padding(.vertical,10)
+//                .background(Color.blue)
                 .onTapGesture {
                     self.prose.wrappedValue.dismiss()
                 }
@@ -112,7 +127,7 @@ struct gu: View {
             Image(systemName: img)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 19)
+                .frame(width: 22)
                 .foregroundColor(col)
             Text(name)
             Spacer()

@@ -19,7 +19,7 @@ class ToDo:ObservableObject {
     
     init(data:[SingleToDo],tags:[Tags]) {
         for i in data {
-            self.todoList.append(SingleToDo(title: i.title,id: count,tags: i.tags))
+            self.todoList.append(SingleToDo(title: i.title,id: count,tags: i.tags,important: i.important))
             count += 1
         }
         tags.forEach { tag in
@@ -29,7 +29,7 @@ class ToDo:ObservableObject {
     }
     
     func add(data:SingleToDo) {
-        self.todoList.append(SingleToDo(title: data.title,id: count,tags: data.tags))
+        self.todoList.append(SingleToDo(title: data.title,id: count,tags: data.tags,important: data.important))
         count += 1
         self.DataEnd()
     }
@@ -71,6 +71,7 @@ struct SingleToDo:Identifiable,Codable {
     var id:Int = 0
     var tags:[String] = []
     var delete:Bool = false
+    var important:Bool = false
 }
 struct Tags:Identifiable,Codable {
     var id:Int = 0

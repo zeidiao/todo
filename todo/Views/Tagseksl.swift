@@ -72,6 +72,7 @@ struct Tagseksl: View {
                 }, label: {
                     Image(systemName: self.isR ? "trash" : "checkmark")
                         .foregroundColor(Color(#colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1)))
+                        .padding()
                 }))
     }
     func generateContent(geometry: GeometryProxy) -> some View {

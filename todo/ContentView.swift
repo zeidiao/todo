@@ -15,7 +15,7 @@ func initUserData() -> [SingleToDo] {
         
         data.forEach{ todo in
             if !todo.delete{
-                outPut.append(SingleToDo(title: todo.title, isCheckd: todo.isCheckd, id: todo.id,tags: todo.tags,delete: todo.delete))
+                outPut.append(SingleToDo(title: todo.title, isCheckd: todo.isCheckd, id: todo.id,tags: todo.tags,delete: todo.delete,important: todo.important))
             }
         }
     }
@@ -123,6 +123,9 @@ struct ToDoOne: View {
                         .frame(height: 29)
                         .foregroundColor(.red)
                         .padding(.trailing)
+                        .onTapGesture(count: 1, perform: {
+                            self.userData.check(id: self.id)
+                        })
                 }
             )
                 .padding(.horizontal)
@@ -138,8 +141,13 @@ struct ToDoTop: View {
             Button(action: {
                 self.show.toggle()
             }){
-                Image(systemName: "tag")
-                     .foregroundColor(.red)
+                Image(systemName: "list.star")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 24)
+                    .foregroundColor(.red)
+                    .padding(8)
+                    
             }
             .sheet(isPresented: self.$show, content: {
                 showFilter(title: $title)
@@ -148,11 +156,18 @@ struct ToDoTop: View {
             Spacer()
             Text(title)
             Spacer()
-            Image(systemName: "ellipsis")
+            Image(systemName: "magnifyingglass")
                 .resizable()
                 .scaledToFit()
                 .foregroundColor(.red)
-                .frame(width: 20)
+                .frame(width: 24)
+                .padding(8)
+            Image(systemName: "gearshape")
+                .resizable()
+                .scaledToFit()
+                .foregroundColor(.red)
+                .frame(width: 24)
+                .padding(8)
         }
         .padding(.horizontal)
         .padding(.top)
