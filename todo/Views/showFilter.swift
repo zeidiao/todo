@@ -47,8 +47,13 @@ struct showFilter: View {
             VStack {
                 VStack(spacing:20) {
                     ForEach(j){ tag in
-                        gu(col: tag.col, name: tag.name, img: tag.img, count: importantCount(tag: tag.name))
-
+                        Button(action: {
+                            self.prose.wrappedValue.dismiss()
+                            self.title = tag.name
+                        }, label: {
+                            gu(col: tag.col, name: tag.name, img: tag.img, count: importantCount(tag: tag.name))
+                                .foregroundColor(.black)
+                        })
                     }
                 }
                 .padding(.vertical,20)

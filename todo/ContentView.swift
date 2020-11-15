@@ -53,7 +53,12 @@ struct ContentView: View {
                         ToDoOne(id: todo.id)
                             .environmentObject(self.userData)
                             .padding(.top)
+                    } else if !todo.delete && todo.important {
+                        ToDoOne(id: todo.id)
+                            .environmentObject(self.userData)
+                            .padding(.top)
                     }
+                    
                 }
 //                ZStack {
 //                    Image(systemName: "car")
@@ -88,51 +93,8 @@ struct ContentView: View {
         }
     }
 }
-struct ToDoOne: View {
-    var id:Int = 0
-    @EnvironmentObject var userData:ToDo
-    var body: some View {
-        VStack {
-            HStack {
-                RoundedRectangle(cornerRadius: 34)
-                    .frame(width: 300)
-                    .foregroundColor(.gray)
-                    .opacity(0.3)
-                Spacer()
-            }
-            .frame(height: 40)
-            .background(Color.white)
-            .cornerRadius(34)
-            .shadow(radius: 4)
-            .overlay(
-                HStack {
-                    Text(self.userData.todoList[id].title)
-                    .padding(.leading)
-                    Spacer()
-                    Image(systemName: "trash")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30, height: 26)
-                        .foregroundColor(.red)
-                        .onTapGesture(count: 1, perform: {
-                            self.userData.delete(id: self.id)
-                    })
-                    Image(systemName: self.userData.todoList[id].isCheckd ? "bolt.circle" : "bolt.circle.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 29)
-                        .foregroundColor(.red)
-                        .padding(.trailing)
-                        .onTapGesture(count: 1, perform: {
-                            self.userData.check(id: self.id)
-                        })
-                }
-            )
-                .padding(.horizontal)
-        }
-    }
-}
 struct ToDoTop: View {
+    @State var g:Bool = false
     @Binding var title:String
     @State var show:Bool = false
     @EnvironmentObject var userData:ToDo
@@ -156,12 +118,19 @@ struct ToDoTop: View {
             Spacer()
             Text(title)
             Spacer()
-            Image(systemName: "magnifyingglass")
-                .resizable()
-                .scaledToFit()
-                .foregroundColor(.red)
-                .frame(width: 24)
-                .padding(8)
+            Button(action: {
+                self.g = true
+            }, label: {
+                Image(systemName: "magnifyingglass")
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundColor(.red)
+                    .frame(width: 24)
+                    .padding(8)
+            })
+            .fullScreenCover(isPresented: $g, content: {
+                Search()
+            })
             Image(systemName: "gearshape")
                 .resizable()
                 .scaledToFit()
