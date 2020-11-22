@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ToDoOne: View {
+    @State var sheet:Bool = false
     var id:Int = 0
     @EnvironmentObject var userData:ToDo
     var body: some View {
@@ -48,6 +49,21 @@ struct ToDoOne: View {
                 }
             )
                 .padding(.horizontal)
+        }
+        .actionSheet(isPresented: $sheet, content: {
+            ActionSheet(title: Text("你想干哈"), buttons: [
+                .default(Text("移动")){},
+                .default(Text("修改")){},
+                .destructive(Text("删除")){
+                    userData.delete(id: self.id)
+                },
+                .cancel(Text("取消")){
+                    sheet = false
+                }
+            ])
+        })
+        .onTapGesture {
+            sheet.toggle()
         }
     }
 }

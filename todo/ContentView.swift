@@ -53,7 +53,7 @@ struct ContentView: View {
                         ToDoOne(id: todo.id)
                             .environmentObject(self.userData)
                             .padding(.top)
-                    } else if !todo.delete && todo.important {
+                    } else if !todo.delete && todo.important && title == "重要" {
                         ToDoOne(id: todo.id)
                             .environmentObject(self.userData)
                             .padding(.top)
