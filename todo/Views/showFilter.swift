@@ -13,8 +13,8 @@ struct showFilter: View {
     @Environment(\.presentationMode) var prose
     var j:[Sil] = [Sil(col: .purple,img: "star",id: 0,count: 6,name: "重要"),
             Sil(col: .red,img: "calendar",id: 1,count: 0,name: "已计划日程"),
-            Sil(col: .green,img: "person.fill",id: 2,count: 1,name: "只有我能做"),
-            Sil(col: .blue,img: "music.note.house.fill",id: 3,count: 3,name: "任务"),
+            Sil(col: .green,img: "person",id: 2,count: 1,name: "只有我能做"),
+            Sil(col: .blue,img: "music.note.house",id: 3,count: 3,name: "任务"),
     ]
     
     @State var tagNew:Bool = false
@@ -112,14 +112,15 @@ struct Filter: View {
     var go:String = ""
     var conut:Int = 0
     var body: some View {
-        VStack {
-            HStack {
-                Text(self.go)
-                Spacer()
-                Text("\(conut)")
-            }
-            .padding(.horizontal,15)
+        HStack {
+            Image(systemName: "list.bullet")
+                .foregroundColor(Color(#colorLiteral(red: 0.9568627477, green: 0.6588235497, blue: 0.5450980663, alpha: 1)))
+                .padding(5)
+            Text(self.go)
+            Spacer()
+            Text("\(conut)")
         }
+        .padding(.horizontal,5)
     }
 }
 struct gu: View {

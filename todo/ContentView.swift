@@ -44,52 +44,43 @@ struct ContentView: View {
     @State var error:Bool = false
     @State var title:String = "全部项目"
     var body: some View {
-        VStack {
-            ToDoTop(title: $title)
-                .environmentObject(self.userData)
-            ScrollView(showsIndicators: false) {
-                ForEach(self.userData.todoList){ todo in
-                    if !todo.delete && todo.tags.contains(title) {
-                        ToDoOne(id: todo.id)
-                            .environmentObject(self.userData)
-                            .padding(.top)
-                    } else if !todo.delete && todo.important && title == "重要" {
-                        ToDoOne(id: todo.id)
-                            .environmentObject(self.userData)
-                            .padding(.top)
-                    }
-                    
-                }
-//                ZStack {
-//                    Image(systemName: "car")
-//                        .resizable()
-//                        .scaledToFit()
-//                        .frame(width: 300)
-//                        .foregroundColor(Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)))
-//                        .opacity(0.3)
-//                    VStack {
-//                        ForEach(self.userData.todoList){
-//                            ToDoOne(id: $0.id)
-//                                .environmentObject(self.userData)
-//                        }
-//                    }
-//                }
-        }
-            Spacer()
-            Button(action: ({
-                self.error = true
-            })){
-              Image(systemName: "plus.circle.fill")
-                .resizable()
-                .scaledToFit()
-                .frame(height: 50)
-                .foregroundColor(.red)
-                .padding(.bottom)
-            }
-            .sheet(isPresented: self.$error, content: {
-                SwiftUIView()
+        ZStack {
+            Color(#colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1))
+                .edgesIgnoringSafeArea(.all)
+            VStack {
+                ToDoTop(title: $title)
                     .environmentObject(self.userData)
-            })
+                ScrollView(showsIndicators: false) {
+                    Spacer()
+                    ForEach(self.userData.todoList){ todo in
+                        if !todo.delete && todo.tags.contains(title) {
+                            ToDoOneNew(id: todo.id)
+                                .environmentObject(self.userData)
+                                .leftOrReght(todo: todo,userData:userData)
+                        } else if !todo.delete && todo.important && title == "重要" {
+                            ToDoOneNew(id: todo.id)
+                                .environmentObject(self.userData)
+                                .leftOrReght(todo: todo,userData:userData)
+                        }
+                    }
+                }
+                
+                Spacer()
+                Button(action: ({
+                    self.error = true
+                })){
+                  Image(systemName: "plus.circle.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 50)
+                    .foregroundColor(.red)
+                    .padding(.bottom)
+                }
+                .sheet(isPresented: self.$error, content: {
+                    SwiftUIView()
+                        .environmentObject(self.userData)
+                })
+            }
         }
     }
 }
